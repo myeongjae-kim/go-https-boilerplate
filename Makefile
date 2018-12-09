@@ -1,2 +1,5 @@
 run:
-	./scripts/run-webserver-daemon.sh
+	./bin/webserver
+
+build:
+	./scripts/build-webserver.sh
