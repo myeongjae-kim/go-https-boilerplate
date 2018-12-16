@@ -10,21 +10,42 @@ import (
 )
 
 var (
-	flagRedirectToHTTPS = false
+	flagRedirectToHTTPS bool
+	flagHTTPSPort       int
+	flagHTTPPort        int
 )
 
-func parseFlags() {
+func setArgumentOptions() {
 	flag.BoolVar(
 		&flagRedirectToHTTPS,
 		"redirect-to-https",
 		false,
-		"if true, we redirect HTTP to HTTPS")
+		"if true, we redirect HTTP to HTTPS",
+	)
+
+	flag.IntVar(
+		&flagHTTPSPort,
+		"https-port",
+		443,
+		"Set its value to https port number. Default value is 443",
+	)
+
+	flag.IntVar(
+		&flagHTTPPort,
+		"http-port",
+		80,
+		"Set its value to http port number. Default value is 80",
+	)
 
 	flag.Parse()
 
 	if flagRedirectToHTTPS {
 		log.Println("flagRedirectToHTTPS is set.")
 	}
+
+	webserver.SetRedirectToHTTPS(flagRedirectToHTTPS)
+	webserver.SetHTTPSPort(flagHTTPSPort)
+	webserver.SetHTTPPort(flagHTTPPort)
 }
 
 func main() {
@@ -34,7 +55,7 @@ func main() {
 	}
 	defer logFile.Close()
 
-	parseFlags()
+	setArgumentOptions()
 
 	// Set handlers
 	handlerMap := make(webserver.HandlerMap)
@@ -47,7 +68,5 @@ func main() {
 	}
 
 	handlers.SetRootDirectory("./web/dist/")
-	webserver.SetRedirectToHTTPS(flagRedirectToHTTPS)
-	webserver.SetHTTPPort(8080)
 	webserver.InitAndRunServers(handlerMap, allowedHTTPSHosts)
 }
