@@ -1,12 +1,31 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"net/http"
 
 	"github.com/hrzon/go-vue-boilerplate/internal/app/webserver"
+	"github.com/hrzon/go-vue-boilerplate/internal/app/webserver/handlers"
 	"github.com/hrzon/go-vue-boilerplate/pkg/logger"
 )
+
+var (
+	flagRedirectToHTTPS = false
+)
+
+func parseFlags() {
+	flag.BoolVar(
+		&flagRedirectToHTTPS,
+		"redirect-to-https",
+		false,
+		"if true, we redirect HTTP to HTTPS")
+
+	flag.Parse()
+
+	if flagRedirectToHTTPS {
+		log.Println("flagRedirectToHTTPS is set.")
+	}
+}
 
 func main() {
 	logFile, err := logger.InitLoggerWithLogFileName("log")
@@ -15,8 +34,19 @@ func main() {
 	}
 	defer logFile.Close()
 
-	http.HandleFunc("/", webserver.RootHandler)
+	parseFlags()
 
-	//TODO: Give an option to run a server with port number 8080 or 80
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Set handlers
+	handlerMap := make(webserver.HandlerMap)
+	handlerMap["/"] = handlers.RootHandler
+
+	// Set HTTPS hosts
+	allowedHTTPSHosts := []string{
+		"live.myeongjae.kim",
+		"book.myeongjae.kim",
+	}
+
+	handlers.SetRootDirectory("./web/dist/")
+	webserver.SetRedirectToHTTPS(flagRedirectToHTTPS)
+	webserver.InitAndRunServers(handlerMap, allowedHTTPSHosts)
 }

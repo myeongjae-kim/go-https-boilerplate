@@ -1,4 +1,4 @@
-package webserver
+package handlers
 
 import (
 	"io/ioutil"
@@ -6,9 +6,18 @@ import (
 	"net/http"
 )
 
-const (
-	root = "./web/dist/"
-)
+// The server have to be run in root directory of a project.
+// The default root directory is './web'. See https://github.com/golang-standards/project-layout
+var root = "./web/"
+
+// SetRootDirectory sets a default direcrtory of the RootHandler to search resources.
+func SetRootDirectory(rootDirectory string) {
+	root = rootDirectory
+	if root[len(root)-1] != '/' {
+		root += "/"
+	}
+	log.Println("Set root directory to : '" + root + "'")
+}
 
 // RootHandler is an handler to send static files
 func RootHandler(w http.ResponseWriter, r *http.Request) {

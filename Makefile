@@ -1,4 +1,5 @@
 run:
+	make build
 	./bin/webserver
 
 build:
