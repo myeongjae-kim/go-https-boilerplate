@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"golang.org/x/crypto/acme/autocert"
@@ -22,11 +23,25 @@ type (
 
 var (
 	flagRedirectToHTTPS = false
+	httpPort            = "80"
+	httpsPort           = "443"
 )
 
-// SetRedirectToHTTPS turn on redirection if its argument has true.
+// SetRedirectToHTTPS turns on redirection if its argument has true.
 func SetRedirectToHTTPS(b bool) {
 	flagRedirectToHTTPS = b
+}
+
+// SetHTTPPort sets port number of http server. Default value is 80.
+func SetHTTPPort(p int) {
+	httpPort = strconv.Itoa(p)
+	log.Printf("(SetHTTPPort) set http port number to %s\n", httpPort)
+}
+
+// SetHTTPSPort sets port number of https server. Default value is 443.
+func SetHTTPSPort(p int) {
+	httpsPort = strconv.Itoa(p)
+	log.Printf("(SetHTTPSPort) set https port number to %s\n", httpsPort)
 }
 
 // InitAndRunServers initializes https and http servers and run them.
@@ -52,7 +67,7 @@ func InitServers(handlerMap HandlerMap, allowedHosts []string) (HTTPSServer, HTT
 		httpSrv.Handler = m.HTTPHandler(httpSrv.Handler)
 	}
 
-	httpSrv.Addr = ":80"
+	httpSrv.Addr = ":" + httpPort
 
 	return httpsSrv, httpSrv
 }
@@ -126,7 +141,7 @@ func makeHTTPSServer(handlerMap HandlerMap, allowedHosts []string) (*http.Server
 	}
 
 	httpsSrv := makeHTTPServer(handlerMap)
-	httpsSrv.Addr = ":443"
+	httpsSrv.Addr = ":" + httpsPort
 	httpsSrv.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
 
 	return httpsSrv, m

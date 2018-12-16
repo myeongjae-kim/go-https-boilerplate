@@ -4,9 +4,9 @@ import (
 	"flag"
 	"log"
 
-	"github.com/hrzon/go-vue-boilerplate/internal/app/webserver"
-	"github.com/hrzon/go-vue-boilerplate/internal/app/webserver/handlers"
 	"github.com/hrzon/go-vue-boilerplate/pkg/logger"
+	"github.com/hrzon/go-vue-boilerplate/pkg/webserver"
+	"github.com/hrzon/go-vue-boilerplate/pkg/webserver/handlers"
 )
 
 var (
@@ -48,5 +48,6 @@ func main() {
 
 	handlers.SetRootDirectory("./web/dist/")
 	webserver.SetRedirectToHTTPS(flagRedirectToHTTPS)
+	webserver.SetHTTPPort(8080)
 	webserver.InitAndRunServers(handlerMap, allowedHTTPSHosts)
 }
