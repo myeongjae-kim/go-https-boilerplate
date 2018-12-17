@@ -4,9 +4,9 @@ import (
 	"flag"
 	"log"
 
-	"github.com/hrzon/go-vue-boilerplate/pkg/logger"
-	"github.com/hrzon/go-vue-boilerplate/pkg/webserver"
-	"github.com/hrzon/go-vue-boilerplate/pkg/webserver/handlers"
+	"github.com/hrzon/go-https-boilerplate/pkg/logger"
+	"github.com/hrzon/go-https-boilerplate/pkg/webserver"
+	"github.com/hrzon/go-https-boilerplate/pkg/webserver/handlers"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 	flagHTTPPort        int
 )
 
-func setArgumentOptions() {
+func setFlags() {
 	flag.BoolVar(
 		&flagRedirectToHTTPS,
 		"redirect-to-https",
@@ -55,7 +55,7 @@ func main() {
 	}
 	defer logFile.Close()
 
-	setArgumentOptions()
+	setFlags()
 
 	// Set handlers
 	handlerMap := make(webserver.HandlerMap)

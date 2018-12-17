@@ -1,6 +1,6 @@
 run:
 	make build
-	./bin/webserver
+	./scripts/run.sh
 
 build:
 	./scripts/build-webserver.sh
