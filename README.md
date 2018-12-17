@@ -1,11 +1,9 @@
-# Go Vue Boilerplate
+# Go Https Boilerplate
 
 ## Features
 
-- Web Server
-  - Https support with LetsEncrypt
-  - Google login api
-- Vue-cli 3.0
+- Web Server supporting Https using [LetsEncrypt](https://letsencrypt.org)
+- Frontend example with Vue-cli 3.0 in `./web` directory
 
 ## References
 
