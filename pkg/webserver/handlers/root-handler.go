@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path"
 )
 
 // The server have to be run in root directory of a project.
@@ -21,26 +22,30 @@ func SetRootDirectory(rootDirectory string) {
 
 // RootHandler is an handler to send static files
 func RootHandler(w http.ResponseWriter, r *http.Request) {
-	path := r.URL.Path[len("/"):]
+	filePath := r.URL.Path[len("/"):]
 
-	source, err := ioutil.ReadFile(root + path)
+	source, err := ioutil.ReadFile(root + filePath)
 	if err != nil {
-		source, err = ioutil.ReadFile(root + path + "/index.html")
+		source, err = ioutil.ReadFile(root + filePath + "/index.html")
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte(err.Error()))
 			return
 		}
-		path += "index.html"
+		filePath += "index.html"
 	}
 
-	// Set content type to css if required file's extension is css.
-	if len(path) >= 4 && path[len(path)-4:] == ".css" {
+	// Set header according to its file extension.
+	switch path.Ext(filePath) {
+	case ".css":
 		w.Header().Set("Content-Type", "text/css")
+	case ".svg":
+		w.Header().Set("Content-Type", "image/svg+xml")
+		w.Header().Set("Vary", "Accept-Encoding")
 	}
 
 	w.Write(source)
 
 	//TODO: Log more detailed information.
-	log.Println("(rootHandler) The requested file has been sent: ", root+path)
+	log.Println("(rootHandler) The requested file has been sent: ", root+filePath)
 }
