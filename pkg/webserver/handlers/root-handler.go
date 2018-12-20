@@ -4,8 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"path"
-	"strings"
 )
 
 // The server have to be run in root directory of a project.
@@ -36,14 +34,15 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 		filePath += "index.html"
 	}
 
+	// Set below header for all responses
+	// https://blog.stackpath.com/accept-encoding-vary-important
+	w.Header().Set("Vary", "Accept-Encoding")
+
 	// Set header according to its file extension.
-	switch strings.ToLower(path.Ext(filePath)) {
-	case ".css":
-		w.Header().Set("Content-Type", "text/css")
-	case ".svg":
-		w.Header().Set("Content-Type", "image/svg+xml")
-		w.Header().Set("Vary", "Accept-Encoding")
-	}
+	w.Header().Set(
+		"Content-Type",
+		getContentTypeHeader(filePath),
+	)
 
 	w.Write(source)
 
