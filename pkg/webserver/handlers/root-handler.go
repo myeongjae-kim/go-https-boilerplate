@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"strings"
 )
 
 // The server have to be run in root directory of a project.
@@ -36,7 +37,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set header according to its file extension.
-	switch path.Ext(filePath) {
+	switch strings.ToLower(path.Ext(filePath)) {
 	case ".css":
 		w.Header().Set("Content-Type", "text/css")
 	case ".svg":
