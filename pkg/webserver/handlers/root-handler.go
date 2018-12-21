@@ -4,6 +4,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/hrzon/go-https-boilerplate/pkg/webserver/handlers/headers"
 )
 
 // The server have to be run in root directory of a project.
@@ -34,16 +36,11 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 		filePath += "index.html"
 	}
 
-	// Set below header for all responses
-	// https://blog.stackpath.com/accept-encoding-vary-important
-	w.Header().Set("Vary", "Accept-Encoding")
+	// Set response headers
+	headers.SetDefaultHeaders(&w)
+	headers.SetContentTypeHeader(&w, filePath)
 
-	// Set header according to its file extension.
-	w.Header().Set(
-		"Content-Type",
-		getContentTypeHeader(filePath),
-	)
-
+	// Send the response
 	w.Write(source)
 
 	//TODO: Log more detailed information.
