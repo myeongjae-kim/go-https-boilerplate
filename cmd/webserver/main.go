@@ -67,6 +67,5 @@ func main() {
 		"book.myeongjae.kim",
 	}
 
-	handlers.SetRootDirectory("./web/dist/")
 	webserver.InitAndRunServers(handlerMap, allowedHTTPSHosts)
 }

@@ -10,7 +10,7 @@ import (
 
 // The server have to be run in root directory of a project.
 // The default root directory is './web'. See https://github.com/golang-standards/project-layout
-var root = "./web/"
+var root = "./website/"
 
 // SetRootDirectory sets a default direcrtory of the RootHandler to search resources.
 func SetRootDirectory(rootDirectory string) {
