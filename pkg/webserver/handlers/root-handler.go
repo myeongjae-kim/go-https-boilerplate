@@ -37,8 +37,8 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set response headers
-	headers.SetDefaultHeaders(&w)
-	headers.SetContentTypeHeader(&w, filePath)
+	headers.SetDefaultHeaders(w)
+	headers.SetContentTypeHeader(w, filePath)
 
 	// Send the response
 	w.Write(source)

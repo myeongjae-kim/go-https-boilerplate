@@ -30,17 +30,17 @@ func init() {
 }
 
 // SetContentTypeHeader writes content type header to a response according to an extension of a file path
-func SetContentTypeHeader(w *http.ResponseWriter, filePath string) {
-	(*w).Header().Set(
+func SetContentTypeHeader(w http.ResponseWriter, filePath string) {
+	w.Header().Set(
 		"Content-Type",
 		contentTypes[strings.ToLower(path.Ext(filePath))],
 	)
 }
 
 // SetDefaultHeaders write headers registered as defaults
-func SetDefaultHeaders(w *http.ResponseWriter) {
+func SetDefaultHeaders(w http.ResponseWriter) {
 	for k, v := range defaultHeaders {
-		(*w).Header().Set(k, v)
+		w.Header().Set(k, v)
 	}
 }
 
