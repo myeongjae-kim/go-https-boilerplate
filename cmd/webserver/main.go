@@ -4,9 +4,9 @@ import (
 	"flag"
 	"log"
 
-	"github.com/hrzon/go-https-boilerplate/pkg/logger"
-	"github.com/hrzon/go-https-boilerplate/pkg/webserver"
-	"github.com/hrzon/go-https-boilerplate/pkg/webserver/handlers"
+	"github.com/myeongjae-kim/go-https-boilerplate/pkg/logger"
+	"github.com/myeongjae-kim/go-https-boilerplate/pkg/webserver"
+	"github.com/myeongjae-kim/go-https-boilerplate/pkg/webserver/handlers"
 )
 
 var (

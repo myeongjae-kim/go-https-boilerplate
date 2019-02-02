@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/hrzon/go-https-boilerplate/pkg/webserver/handlers/headers"
+	"github.com/myeongjae-kim/go-https-boilerplate/pkg/webserver/handlers/headers"
 )
 
 // The server have to be run in root directory of a project.
